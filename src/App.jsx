@@ -1,14 +1,9 @@
+// App.js
 import React, { useState } from "react";
-import {
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-} from "@mui/material";
+import { Button, Box } from "@mui/material";
 import DataLoadingComponent from "./components/DataLoadingComponent ";
 import DataTableComponent from "./components/DataTableComponent";
-import UserCreationForm from "./components/UserCreationForm";
+import Modal from "./components/Modal/Modal";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -29,21 +24,20 @@ function App() {
   };
 
   return (
-    <div>
-      <Button variant="contained" onClick={handleOpenModal}>
-        Создать пользователя
-      </Button>
-      <Dialog open={open} onClose={handleCloseModal}>
-        <DialogContent>
-          <UserCreationForm
-            onCreateUser={handleCreateUser}
-            handleCloseModal={handleCloseModal}
-          />
-        </DialogContent>
-      </Dialog>
+    <>
+      <Box mt={2} mb={2} display="flex" justifyContent="end">
+        <Button variant="contained" onClick={handleOpenModal}>
+          Создать пользователя
+        </Button>
+      </Box>
+      <Modal
+        open={open}
+        handleCloseModal={handleCloseModal}
+        handleCreateUser={handleCreateUser}
+      />
       <DataLoadingComponent setUsers={setUsers} setHasMore={setHasMore} />
       <DataTableComponent users={users} />
-    </div>
+    </>
   );
 }
 

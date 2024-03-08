@@ -1,17 +1,17 @@
-import "./Modal.css";
+import React from "react";
+import { Dialog, DialogContent } from "@mui/material";
+import UserCreationForm from "../UserCreationForm/index";
 
-const Modal = ({ isOpen, onClose, children }) => {
-  if (!isOpen) return null;
-
+const Modal = ({ open, handleCloseModal, handleCreateUser }) => {
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close-btn" onClick={onClose}>
-          Закрыть
-        </button>
-        {children}
-      </div>
-    </div>
+    <Dialog open={open} onClose={handleCloseModal}>
+      <DialogContent>
+        <UserCreationForm
+          onCreateUser={handleCreateUser}
+          handleCloseModal={handleCloseModal}
+        />
+      </DialogContent>
+    </Dialog>
   );
 };
 
