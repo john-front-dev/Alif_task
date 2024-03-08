@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:3000";
 
-export const getUsers = async (start = 0, limit = 10) => {
+export const getUsers = async (start = 0, limit = 100000) => {
   try {
     const response = await axios.get(`${BASE_URL}/users`, {
       params: {

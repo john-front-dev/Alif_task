@@ -5,6 +5,8 @@ import {
 } from "material-react-table";
 
 const DataTableComponent = ({ users }) => {
+  const reversedUsers = useMemo(() => [...users].reverse(), [users]);
+
   const columns = useMemo(
     () => [
       {
@@ -27,13 +29,17 @@ const DataTableComponent = ({ users }) => {
         accessorKey: "website",
         header: "Сайт",
       },
+      {
+        accessorKey: "address.street",
+        header: "Адресс",
+      },
     ],
     []
   );
 
   const table = useMaterialReactTable({
     columns,
-    data: users,
+    data: reversedUsers,
     enablePagination: false,
     enableRowNumbers: true,
     enableRowVirtualization: true,

@@ -1,11 +1,13 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { createUser } from "../../api/api";
 
 const UserCreationForm = ({ onCreateUser }) => {
-  const [newUserName, setNewUserName] = useState("");
-  const [newUserEmail, setNewUserEmail] = useState("");
-  const [newUserStreet, setNewUserStreet] = useState("");
+  const [newUserName, setNewUserName] = useState(""); // Состояние для имени нового пользователя
+  const [newUserEmail, setNewUserEmail] = useState(""); // Состояние для email нового пользователя
+  const [newUserStreet, setNewUserStreet] = useState(""); // Состояние для улицы нового пользователя
 
-  const handleSubmit = (e) => {
+  // Обработчик отправки формы
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newUser = {
       name: newUserName,
@@ -14,7 +16,16 @@ const UserCreationForm = ({ onCreateUser }) => {
         street: newUserStreet,
       },
     };
-    onCreateUser(newUser);
+
+    try {
+      await createUser(newUser); // Создание нового пользователя
+      setNewUserName(""); // Очистка состояния имени
+      setNewUserEmail(""); // Очистка состояния email
+      setNewUserStreet(""); // Очистка состояния улицы
+      onCreateUser(newUser); // Вызов колбэка для обновления списка пользователей
+    } catch (error) {
+      console.error("Ошибка при создании пользователя:", error); // Обработка ошибок
+    }
   };
 
   return (
