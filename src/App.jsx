@@ -1,4 +1,3 @@
-// App.js
 import React, { useState } from "react";
 import { Button, Box } from "@mui/material";
 import DataLoadingComponent from "./components/DataLoadingComponent ";
@@ -36,7 +35,16 @@ function App() {
         handleCreateUser={handleCreateUser}
       />
       <DataLoadingComponent setUsers={setUsers} setHasMore={setHasMore} />
-      <DataTableComponent users={users} />
+      <div
+        style={{
+          maxHeight: "70vh",
+          overflowY: "auto",
+          border: "2px solid #E0E0E0",
+          borderRadius: "12px",
+        }}
+      >
+        <DataTableComponent users={users} />
+      </div>
     </>
   );
 }

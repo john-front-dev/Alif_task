@@ -5,10 +5,8 @@ import {
   TextField,
   Grid,
   Typography,
-  Snackbar,
   DialogActions,
 } from "@mui/material";
-import { Alert } from "@mui/material";
 
 const UserCreationForm = ({ onCreateUser, handleCloseModal }) => {
   const [newUserName, setNewUserName] = useState("");
@@ -17,11 +15,18 @@ const UserCreationForm = ({ onCreateUser, handleCloseModal }) => {
   const [newUserPhone, setNewUserPhone] = useState("");
   const [newUserUsername, setNewUserUsername] = useState("");
   const [newUserWebsite, setNewUserWebsite] = useState("");
-  const [openToast, setOpenToast] = useState(false);
-  const [phoneError, setPhoneError] = useState(false); // Состояние ошибки для поля телефонного номера
+  const [phoneError, setPhoneError] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const isPhoneValid =
+      /^\d+$/.test(newUserPhone) && newUserPhone.length === 12;
+    setPhoneError(!isPhoneValid);
+
+    if (!isPhoneValid) {
+      return;
+    }
+
     const newUser = {
       name: newUserName,
       email: newUserEmail,
@@ -42,24 +47,10 @@ const UserCreationForm = ({ onCreateUser, handleCloseModal }) => {
       setNewUserUsername("");
       setNewUserWebsite("");
       onCreateUser(newUser);
-      setOpenToast(true);
-      handleCloseModal(); // Закрываем модальное окно после успешного создания пользователя
+      handleCloseModal();
     } catch (error) {
       console.error("Ошибка при создании пользователя:", error);
     }
-  };
-
-  const handleCloseToast = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenToast(false);
-  };
-
-  const handlePhoneChange = (e) => {
-    const value = e.target.value;
-    setNewUserPhone(value);
-    setPhoneError(!(/^\d+$/.test(value) && value.length === 12));
   };
 
   return (
@@ -102,14 +93,19 @@ const UserCreationForm = ({ onCreateUser, handleCloseModal }) => {
             fullWidth
             label="Номер телефона"
             value={newUserPhone}
-            onChange={handlePhoneChange}
             error={phoneError}
-            helperText={phoneError ? "Неверный формат номера телефона" : ""}
-            inputProps={{ type: "number" }}
+            helperText={
+              phoneError
+                ? "Неверный формат номера телефона. Номер должен состоять из 12 цифр."
+                : ""
+            }
+            onChange={(e) => setNewUserPhone(e.target.value)}
+            sx={{ borderColor: phoneError ? "red" : null }}
           />
         </Grid>
         <Grid item xs={12}>
           <TextField
+            required
             fullWidth
             label="Ник"
             value={newUserUsername}
@@ -118,6 +114,7 @@ const UserCreationForm = ({ onCreateUser, handleCloseModal }) => {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            required
             fullWidth
             label="Сайт"
             value={newUserWebsite}
@@ -137,19 +134,6 @@ const UserCreationForm = ({ onCreateUser, handleCloseModal }) => {
           </Button>
         </DialogActions>
       </Grid>
-      <Snackbar
-        open={openToast}
-        autoHideDuration={6000}
-        onClose={handleCloseToast}
-      >
-        <Alert
-          onClose={handleCloseToast}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          Пользователь успешно создан!
-        </Alert>
-      </Snackbar>
     </form>
   );
 };
