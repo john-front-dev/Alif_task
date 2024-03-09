@@ -4,12 +4,24 @@ import DataLoadingComponent from "./components/DataLoadingComponent ";
 import DataTableComponent from "./components/DataTableComponent";
 import Modal from "./components/Modal/Modal";
 
-function App() {
-  const [users, setUsers] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [open, setOpen] = useState(false);
+interface User {
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  address: {
+    street: string;
+  };
+  phone: string;
+  website: string;
+}
 
-  const handleCreateUser = (newUser) => {
+function App({}) {
+  const [users, setUsers] = useState<User[]>([]);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleCreateUser = (newUser: User) => {
     setUsers((prevUsers) => [...prevUsers, newUser]);
     handleCloseModal();
   };
@@ -37,9 +49,8 @@ function App() {
       <DataLoadingComponent setUsers={setUsers} setHasMore={setHasMore} />
       <div
         style={{
-     
           border: "2px solid #E0E0E0",
-          borderRadius: "12px",
+          borderRadius: "8px",
         }}
       >
         <DataTableComponent users={users} />

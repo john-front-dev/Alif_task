@@ -1,10 +1,27 @@
+import React from "react";
 import { useMemo } from "react";
 import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
 
-const DataTableComponent = ({ users }) => {
+interface User {
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  address: {
+    street: string;
+  };
+  phone: string;
+  website: string;
+}
+
+interface DataTableComponentProps {
+  users: User[];
+}
+
+const DataTableComponent: React.FC<DataTableComponentProps> = ({ users }) => {
   const columns = useMemo(
     () => [
       {
@@ -47,7 +64,8 @@ const DataTableComponent = ({ users }) => {
     <div
       style={{
         maxHeight: "85vh",
-        overflowY: "hidden",
+        overflowY: "auto",
+        padding: "1px",
       }}
     >
       <MaterialReactTable table={table} />

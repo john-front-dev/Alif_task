@@ -1,23 +1,36 @@
 import React, { useState } from "react";
 import { createUser } from "../../api/api";
-import {
-  Button,
-  TextField,
-  Grid,
-  Typography,
-  DialogActions,
-} from "@mui/material";
+import { Button, TextField, Grid, Typography, DialogActions } from "@mui/material";
 
-const UserCreationForm = ({ onCreateUser, handleCloseModal }) => {
-  const [newUserName, setNewUserName] = useState("");
-  const [newUserEmail, setNewUserEmail] = useState("");
-  const [newUserStreet, setNewUserStreet] = useState("");
-  const [newUserPhone, setNewUserPhone] = useState("");
-  const [newUserUsername, setNewUserUsername] = useState("");
-  const [newUserWebsite, setNewUserWebsite] = useState("");
-  const [phoneError, setPhoneError] = useState(false);
+interface UserCreationFormProps {
+  onCreateUser: (newUser: newUser) => void;
+  handleCloseModal: () => void;
+}
 
-  const handleSubmit = async (e) => {
+interface newUser {
+  name: string;
+  email: string;
+  address: {
+    street: string;
+  };
+  phone: string;
+  username: string;
+  website: string;
+}
+
+const UserCreationForm: React.FC<UserCreationFormProps> = ({
+  onCreateUser,
+  handleCloseModal,
+}) => {
+  const [newUserName, setNewUserName] = useState<string>("");
+  const [newUserEmail, setNewUserEmail] = useState<string>("");
+  const [newUserStreet, setNewUserStreet] = useState<string>("");
+  const [newUserPhone, setNewUserPhone] = useState<string>("");
+  const [newUserUsername, setNewUserUsername] = useState<string>("");
+  const [newUserWebsite, setNewUserWebsite] = useState<string>("");
+  const [phoneError, setPhoneError] = useState<boolean>(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const isPhoneValid =
       /^\d+$/.test(newUserPhone) && newUserPhone.length === 12;
@@ -27,7 +40,7 @@ const UserCreationForm = ({ onCreateUser, handleCloseModal }) => {
       return;
     }
 
-    const newUser = {
+    const newUser: newUser = {
       name: newUserName,
       email: newUserEmail,
       address: {
