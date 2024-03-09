@@ -37,8 +37,7 @@ function App() {
       <DataLoadingComponent setUsers={setUsers} setHasMore={setHasMore} />
       <div
         style={{
-          maxHeight: "70vh",
-          overflowY: "auto",
+     
           border: "2px solid #E0E0E0",
           borderRadius: "12px",
         }}

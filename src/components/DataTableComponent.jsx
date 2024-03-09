@@ -44,7 +44,12 @@ const DataTableComponent = ({ users }) => {
   });
 
   return (
-    <div style={{}}>
+    <div
+      style={{
+        maxHeight: "85vh",
+        overflowY: "hidden",
+      }}
+    >
       <MaterialReactTable table={table} />
     </div>
   );
