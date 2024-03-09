@@ -40,7 +40,7 @@ const DataTableComponent = ({ users }) => {
     data: users,
     enablePagination: false,
     enableRowNumbers: true,
-    enableRowVirtualization: false,
+    enableRowVirtualization: true,
   });
 
   return (
